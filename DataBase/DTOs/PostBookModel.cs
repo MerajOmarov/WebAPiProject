@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataBase.DTOs
 {
-    public  class DTU_PostBook
+    public  class PostBookModel
     {
         public int Author_ID { get; set; }
         public string Name { get; set; }

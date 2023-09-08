@@ -1,4 +1,5 @@
-﻿using DataBase.DTOs;
+﻿using ApiLibraryProject.ActionFilters;
+using DataBase.DTOs;
 using DataBase.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -20,41 +21,91 @@ namespace ApiLibraryProject.Controllers
         }
 
         [HttpPost("Author")]
-        public async Task<IActionResult> PostAuthors([FromBody] DTU_PostAuthor ModelAuthor)
+        [ServiceFilter(typeof(ValidationFilter))]
+        public async Task<IActionResult> PostAuthors([FromBody] PostAuthorModel ModelAuthor)
         {
-            Context.Author.Add(new Author { Name = ModelAuthor.NameOfAuthor });
-            await Context.SaveChangesAsync();
-            return Ok("Successfully!!");
-        }
+            try
+            {
+                var author = new Author { Name = ModelAuthor.NameOfAuthor };
+                if (author != null)
+                {
+                    Context.Author.Add(author);
+                    await Context.SaveChangesAsync();
+                    return Ok("Successfully!!");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Unsuccessfully creating!!!");
 
+            }
+        }    
 
+        [ServiceFilter(typeof(ValidationFilter))]
         [HttpDelete("Authors/id")]
-        public async Task<IActionResult> DeleteAuthor([FromBody] DTU_DeleteAuthor ModelAuthor)
+        public async Task<IActionResult> DeleteAuthor([FromBody] DeleteAuthoModel ModelAuthor)
         {
-            Author author = await Context.Author.FirstOrDefaultAsync(a => a.Author_Id == ModelAuthor.ID);
-            Context.Author.Remove(author);
-            await Context.SaveChangesAsync();
-            return Ok("Successfully!!");
+            try
+            {
+                var author = await Context.Author.FirstOrDefaultAsync(a => a.Author_Id == ModelAuthor.ID);
+                if (author != null)
+                {
+                    Context.Author.Remove(author);
+                    await Context.SaveChangesAsync();
+                    return Ok("Successfully!!");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Unsuccessfully remove!!!");
+            }
+            
         }
 
-
+        [ServiceFilter(typeof(ValidationFilter))]
         [HttpPost("Books")]
-        public async Task<IActionResult> PostBook([FromBody] DTU_PostBook ModelBook)
+        public async Task<IActionResult> PostBook([FromBody] PostBookModel ModelBook)
         {
-            Author author = await Context.Author.FirstOrDefaultAsync(a => a.Author_Id == ModelBook.Author_ID);
-            Context.Books.Add(new Book { BookAuthor = author, Description = ModelBook.Description, Name = ModelBook.Name, Book_Author_Id = author.Author_Id });
-            await Context.SaveChangesAsync();
-            return Ok("Successfully!!");
+            try
+            {
+                var author = await Context.Author.FirstOrDefaultAsync(a => a.Author_Id == ModelBook.Author_ID);
+                if (author != null) 
+                {
+                    Context.Books.Add(new Book { BookAuthor = author, Description = ModelBook.Description, Name = ModelBook.Name, Book_Author_Id = author.Author_Id });
+                    await Context.SaveChangesAsync();
+                    return Ok("Successfully!!");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Unsuccessfully creating!!!");
+            }
+           
         }
 
-
+        [ServiceFilter(typeof(ValidationFilter))]
         [HttpDelete("Books/id")]
-        public async Task<IActionResult> DeleteBook([FromBody] DTU_DeleteBook ModelBook)
+        public async Task<IActionResult> DeleteBook([FromBody] DeleteBookModel ModelBook)
         {
-            Book book = await  Context.Books.FirstOrDefaultAsync(b => b.Name == ModelBook.NameOfBook);
-            Context.Books.Remove(book);
-            await Context.SaveChangesAsync();
-            return Ok("Successfully!!");
+            try
+            {
+                var book = await Context.Books.FirstOrDefaultAsync(b => b.Name == ModelBook.NameOfBook);
+                if (book != null)
+                {
+                    Context.Books.Remove(book);
+                    await Context.SaveChangesAsync();
+                    return Ok("Successfully!!");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Unsuccessfully remove!!!");
+            }
+         
         }
 
 

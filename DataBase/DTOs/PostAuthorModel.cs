@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataBase.DTOs
 {
-    public  class DTU_DeleteAuthor
+    public  class PostAuthorModel
     {
-        public int ID { get; set; }
+        public string NameOfAuthor { get; set; }
+        
     }
 }

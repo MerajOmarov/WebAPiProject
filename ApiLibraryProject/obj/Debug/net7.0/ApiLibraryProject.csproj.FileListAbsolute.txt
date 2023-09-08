@@ -83,3 +83,4 @@ C:\Users\Meraj\source\repos\ApiLibraryProject\ApiLibraryProject\obj\Debug\net7.0
 C:\Users\Meraj\source\repos\ApiLibraryProject\ApiLibraryProject\obj\Debug\net7.0\ApiLibraryProject.pdb
 C:\Users\Meraj\source\repos\ApiLibraryProject\ApiLibraryProject\obj\Debug\net7.0\ApiLibraryProject.genruntimeconfig.cache
 C:\Users\Meraj\source\repos\ApiLibraryProject\ApiLibraryProject\obj\Debug\net7.0\ref\ApiLibraryProject.dll
+C:\Users\Meraj\source\repos\ApiLibraryProject\ApiLibraryProject\bin\Debug\net7.0\ServiceStack.Text.dll

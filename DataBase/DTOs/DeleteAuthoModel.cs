@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataBase.DTOs
 {
-    public  class DTU_GetBook
+    public  class DeleteAuthoModel
     {
         public int ID { get; set; }
     }

@@ -1,12 +1,16 @@
 
+using ApiLibraryProject.ActionFilters;
 using DataBase.Models;
 using DataBase.Sevices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ServiceStack.Text;
 using System.Text;
+
 
 namespace ApiLibraryProject
 {
@@ -18,6 +22,9 @@ namespace ApiLibraryProject
 
 
             // Add services to the container.
+            builder.Services.AddScoped<ValidationFilter>();
+            builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true;});
+           
             builder.Services.AddControllers();
             builder.Services.AddTransient<IAuthService, AuthService>();
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -79,6 +86,8 @@ namespace ApiLibraryProject
                 };
             });
             var app = builder.Build();
+          
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
